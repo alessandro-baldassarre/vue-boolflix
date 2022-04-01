@@ -1,8 +1,7 @@
 <template>
   <div id="app">
-    <Header @receiveString="stringToSearch" />
-
-    <Main :stringSent="stringReceived"/>
+    <Header @receiveArray="arrayFinded" />
+    <Main :arraySent="arrayReceived"/>
   </div>
 </template>
 
@@ -18,13 +17,13 @@ export default {
   },
   data: function () {
     return {
-      stringReceived: "",
+      arrayReceived: null,
     };
   },
   methods:{
-    stringToSearch(string){
-      this.stringReceived = string;
-      console.log(this.stringReceived);
+    arrayFinded(arraySearched){
+      this.arrayReceived = arraySearched;
+      console.log(arraySearched);
     }
   }
 };
