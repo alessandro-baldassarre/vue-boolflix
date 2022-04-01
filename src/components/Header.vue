@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="logo-brand">
           <a class="navbar-brand">Navbar</a>
-          <p>{{queryString}}</p>
+          <p>{{ queryString }}</p>
         </div>
         <div class="d-flex">
           <input
@@ -14,11 +14,13 @@
             aria-label="Search"
             v-model="queryString"
           />
-          <button 
-          class="btn btn-outline-success" 
-          type="submit"
-          @click="SearchString()"
-          >Search</button>
+          <button
+            class="btn btn-outline-success"
+            type="submit"
+            @click="SearchString()"
+          >
+            Search
+          </button>
         </div>
       </div>
     </nav>
@@ -36,26 +38,48 @@ export default {
     };
   },
   props: {},
-  methods:{
-    SearchString(){
-      this.queryString = this.queryString.trim().replace(/\s/g, '+');
+  methods: {
+    SearchString() {
+      this.queryString = this.queryString.trim().replace(/\s/g, "+");
       console.log(this.queryString);
+      // axios
+      //   .get(
+      //     `https://api.themoviedb.org/3/search/tv?api_key=d0016a6e9aa708d1a4236864958a9da3&query=scrubs`
+      //   )
+      //   .then((response) => {
+      //     this.findedArray = response.data.results;
+      //     console.log(this.findedArray);
+      //     this.$emit("receiveArray", this.findedArray);
+      //     this.queryString = "";
+      //   })
+      //   .catch((e) => {
+      //     console.error(e);
+      //   });
+
       axios
-        .get(
-          `https://api.themoviedb.org/3/search/movie?api_key=d0016a6e9aa708d1a4236864958a9da3&query=${this.queryString}`
-        )
-        .then((response) => {
-          this.findedArray = response.data.results;
-          console.log(this.findedArray); 
-          this.$emit("receiveArray", this.findedArray);
-          this.queryString = "";
-        })
-        .catch((e) => {
-          console.error(e);
-        });
-   
-    }  
-  }
+        .all([
+          axios.get(
+            `https://api.themoviedb.org/3/search/movie?api_key=d0016a6e9aa708d1a4236864958a9da3&query=${this.queryString}`
+          ),
+          axios.get(
+            `https://api.themoviedb.org/3/search/tv?api_key=d0016a6e9aa708d1a4236864958a9da3&query=scrubs`
+          ),
+        ])
+        .then(
+          axios.spread((response1, response2) => {
+            // Both requests are now complete
+            
+            console.log(response2.data.results);
+            console.log(response1.data.results);
+            this.findedArray = [...response1.data.results,...response2.data.results];
+            console.log(this.findedArray);
+            this.$emit("receiveArray", this.findedArray);
+            this.queryString = "";
+          })
+        );
+      
+    },
+  },
 };
 </script>
 
