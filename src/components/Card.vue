@@ -1,41 +1,52 @@
 <template>
   <div>
-     <ul>
-        <li>
-          {{findedElement.title}}
-        </li>
-        <li>
-          {{findedElement.original_title}}
-        </li>
-        <li>
-          {{findedElement.original_language}}
-          {{flag()}}
-        </li>
-        <li>
-          {{findedElement.vote_average}}
-        </li>
-      </ul>
+    <ul>
+      <li>
+        {{ title() }}
+      </li>
+      <li>
+        {{ originalTitle() }}
+      </li>
+      <li>
+        {{ flag() }}
+      </li>
+      <li>
+        {{ finalVote() }}
+        <span v-for="index in finalVote()" :key="index" class="text-warning">
+          <font-awesome-icon icon="fa-solid fa-star" />
+        </span>
+      </li>
+      <li>
+        <img :src="posterUrl()" :alt="'poster of ' + title()" />
+      </li>
+      <li>
+        <span class="text-small">
+          {{ findedElement.overview }}
+        </span>
+        
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
 // import { hasFlag } from 'country-flag-icons'
-import getUnicodeFlagIcon from 'country-flag-icons/unicode'
+import getUnicodeFlagIcon from "country-flag-icons/unicode";
 
 export default {
   name: "MainContentCard",
   props: {
-    findedElement : Object,
+    findedElement: Object,
   },
   data: function () {
     return {
       flagToSearch: this.findedElement.original_language,
     };
   },
-  methods:{
-    flag(){
-      if(this.flagToSearch === 'en'){
-        this.flagToSearch = 'us';
+  methods: {
+    flag() {
+      if (this.flagToSearch === "en") {
+        this.flagToSearch = "us";
       }
 
       // if(!hasFlag(this.flagToSearch.toUpperCase())){
@@ -43,12 +54,39 @@ export default {
       // }
 
       return getUnicodeFlagIcon(this.flagToSearch.toUpperCase());
-    }
-  }
+    },
+    title() {
+      if (this.findedElement.title === undefined) {
+        return this.findedElement.name;
+      }
+      return this.findedElement.title;
+    },
+    originalTitle() {
+      if (this.findedElement.original_title === undefined) {
+        return this.findedElement.original_name;
+      }
+      return this.findedElement.original_title;
+    },
+    posterUrl() {
+      if(this.findedElement.poster_path !== null){
+         return "https://image.tmdb.org/t/p/w45/" + this.findedElement.poster_path;
+      }
+
+      return '#'
+
+    },
+    finalVote() {
+      return Math.round((this.findedElement.vote_average / 10) * 5);
+    },
+  },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import "@/assets/scss/partials/_variables";
+
+.text-small{
+  font-size: .6rem;
+}
 </style>

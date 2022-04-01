@@ -23,7 +23,6 @@ export default {
   methods:{
     arrayFinded(arraySearched){
       this.arrayReceived = arraySearched;
-      console.log(arraySearched);
     }
   }
 };

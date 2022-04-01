@@ -45,16 +45,20 @@ export default {
       let URL2 = `https://api.themoviedb.org/3/search/tv?api_key=d0016a6e9aa708d1a4236864958a9da3&query=${transformQuery}`;
 
       axios.all([axios.get(URL1), axios.get(URL2)]).then((values) => {
-        
-          this.findedArray = [
-            ...values[0].data.results,
-            ...values[1].data.results,
-          ];
-          console.log(values[0].data.results);
-          console.log(values[1].data.results);
+        this.findedArray = [
+          ...values[0].data.results,
+          ...values[1].data.results,
+        ];
+        if (
+          values[0].data.results.length === 0 &&
+          values[1].data.results.length === 0
+        ) {
+          console.error("nessun risultato trovato");
+        } else {
           this.$emit("receiveArray", this.findedArray);
-          this.queryString = "";
-        
+        }
+
+        this.queryString = "";
       });
     },
   },
