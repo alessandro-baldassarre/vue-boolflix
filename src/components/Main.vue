@@ -1,21 +1,7 @@
 <template>
   <main>
-    <div class="cards text-white" v-for="(film, index) in arraySent" :key="index">
-      <Card />
-      <ul>
-        <li>
-          {{film.title}}
-        </li>
-        <li>
-          {{film.original_title}}
-        </li>
-        <li>
-          {{film.original_language}}
-        </li>
-        <li>
-          {{film.popularity}}
-        </li>
-      </ul>
+    <div class="cards text-white" v-for="(element, index) in arraySent" :key="index">
+      <Card :findedElement="element"/>
     </div>
     
   </main>
