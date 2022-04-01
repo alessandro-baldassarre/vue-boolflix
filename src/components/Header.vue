@@ -4,7 +4,6 @@
       <div class="container-fluid">
         <div class="logo-brand">
           <a class="navbar-brand">Navbar</a>
-          <p>{{ queryString }}</p>
         </div>
         <div class="d-flex">
           <input
@@ -40,50 +39,23 @@ export default {
   props: {},
   methods: {
     SearchString() {
-      this.queryString = this.queryString.trim().replace(/\s/g, "+");
-      console.log(this.queryString);
-      // axios
-      //   .get(
-      //     `https://api.themoviedb.org/3/search/tv?api_key=d0016a6e9aa708d1a4236864958a9da3&query=scrubs`
-      //   )
-      //   .then((response) => {
-      //     this.findedArray = response.data.results;
-      //     console.log(this.findedArray);
-      //     this.$emit("receiveArray", this.findedArray);
-      //     this.queryString = "";
-      //   })
-      //   .catch((e) => {
-      //     console.error(e);
-      //   });
+      let transformQuery = this.queryString.trim().replace(/\s/g, "+");
 
-      axios
-        .all([
-          axios.get(
-            `https://api.themoviedb.org/3/search/movie?api_key=d0016a6e9aa708d1a4236864958a9da3&query=${this.queryString}`
-          ),
-          axios.get(
-            `https://api.themoviedb.org/3/search/tv?api_key=d0016a6e9aa708d1a4236864958a9da3&query=${this.queryString}`
-          ),
-        ])
-        .then(
-          axios.spread((response1, response2) => {
-            // Both requests are now complete
-            if (
-              response1.data.results.length != 0 &&
-              response2.data.results.length != 0
-            ) {
-              console.log(response2.data.results);
-              console.log(response1.data.results);
-              this.findedArray = [
-                ...response1.data.results,
-                ...response2.data.results,
-              ];
-              console.log(this.findedArray);
-              this.$emit("receiveArray", this.findedArray);
-              this.queryString = "";
-            }
-          })
-        );
+      let URL1 = `https://api.themoviedb.org/3/search/movie?api_key=d0016a6e9aa708d1a4236864958a9da3&query=${transformQuery}`;
+      let URL2 = `https://api.themoviedb.org/3/search/tv?api_key=d0016a6e9aa708d1a4236864958a9da3&query=${transformQuery}`;
+
+      axios.all([axios.get(URL1), axios.get(URL2)]).then((values) => {
+        
+          this.findedArray = [
+            ...values[0].data.results,
+            ...values[1].data.results,
+          ];
+          console.log(values[0].data.results);
+          console.log(values[1].data.results);
+          this.$emit("receiveArray", this.findedArray);
+          this.queryString = "";
+        
+      });
     },
   },
 };

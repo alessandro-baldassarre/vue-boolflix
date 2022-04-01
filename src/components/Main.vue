@@ -12,7 +12,7 @@ import Card from "./Card.vue";
 
 
 export default {
-  name: "MainHeader",
+  name: "MainContent",
   components: {
     Card,
   },

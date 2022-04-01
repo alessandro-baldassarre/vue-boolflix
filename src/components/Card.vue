@@ -19,29 +19,28 @@
 </template>
 
 <script>
-import { hasFlag } from 'country-flag-icons'
+// import { hasFlag } from 'country-flag-icons'
 import getUnicodeFlagIcon from 'country-flag-icons/unicode'
 
 export default {
-  name: "MainHeader",
+  name: "MainContentCard",
   props: {
     findedElement : Object,
   },
   data: function () {
     return {
-      flagToSearch: "",
+      flagToSearch: this.findedElement.original_language,
     };
   },
   methods:{
     flag(){
-      this.flagToSearch = this.findedElement.original_language;
       if(this.flagToSearch === 'en'){
         this.flagToSearch = 'us';
       }
 
-      if(!hasFlag(this.flagToSearch.toUpperCase())){
-        return false
-      }
+      // if(!hasFlag(this.flagToSearch.toUpperCase())){
+      //   return "false"
+      // }
 
       return getUnicodeFlagIcon(this.flagToSearch.toUpperCase());
     }
