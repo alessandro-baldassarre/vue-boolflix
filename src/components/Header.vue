@@ -11,8 +11,13 @@
             type="search"
             placeholder="Search"
             aria-label="Search"
+            v-model="stringToSearch"
           />
-          <button class="btn btn-outline-success" type="submit">Search</button>
+          <button 
+          class="btn btn-outline-success" 
+          type="submit"
+          @click="SendString()"
+          >Search</button>
         </div>
       </div>
     </nav>
@@ -22,7 +27,17 @@
 <script>
 export default {
   name: "MainHeader",
+  data: function () {
+    return {
+      stringToSearch: "",
+    };
+  },
   props: {},
+  methods:{
+    SendString(){
+      this.$emit("receiveString", this.stringToSearch);
+    }
+  }
 };
 </script>
 

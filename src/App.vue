@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header />
+    <Header @receiveString="stringToSearch" />
 
     <Main />
   </div>
@@ -16,6 +16,17 @@ export default {
     Header,
     Main,
   },
+  data: function () {
+    return {
+      stringReceived: "",
+    };
+  },
+  methods:{
+    stringToSearch(string){
+      this.stringReceived = string;
+      console.log(this.stringReceived);
+    }
+  }
 };
 </script>
 

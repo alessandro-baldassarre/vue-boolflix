@@ -7,7 +7,10 @@
           {{film.title}}
         </li>
         <li>
-          {{film.id}}
+          {{film.original_title}}
+        </li>
+        <li>
+          {{film.original_language}}
         </li>
         <li>
           {{film.popularity}}
