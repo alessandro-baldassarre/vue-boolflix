@@ -15,6 +15,9 @@
         <li>
           {{film.popularity}}
         </li>
+        <li>
+          {{stringSent}}
+        </li>
       </ul>
     </div>
     
@@ -29,6 +32,9 @@ export default {
   name: "MainHeader",
   components: {
     Card,
+  },
+  props: {
+    stringSent: String,
   },
   data: function () {
     return {

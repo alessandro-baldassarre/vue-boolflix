@@ -2,7 +2,7 @@
   <div id="app">
     <Header @receiveString="stringToSearch" />
 
-    <Main />
+    <Main :stringSent="stringReceived"/>
   </div>
 </template>
 
