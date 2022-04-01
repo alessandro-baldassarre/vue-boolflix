@@ -62,22 +62,28 @@ export default {
             `https://api.themoviedb.org/3/search/movie?api_key=d0016a6e9aa708d1a4236864958a9da3&query=${this.queryString}`
           ),
           axios.get(
-            `https://api.themoviedb.org/3/search/tv?api_key=d0016a6e9aa708d1a4236864958a9da3&query=scrubs`
+            `https://api.themoviedb.org/3/search/tv?api_key=d0016a6e9aa708d1a4236864958a9da3&query=${this.queryString}`
           ),
         ])
         .then(
           axios.spread((response1, response2) => {
             // Both requests are now complete
-            
-            console.log(response2.data.results);
-            console.log(response1.data.results);
-            this.findedArray = [...response1.data.results,...response2.data.results];
-            console.log(this.findedArray);
-            this.$emit("receiveArray", this.findedArray);
-            this.queryString = "";
+            if (
+              response1.data.results.length != 0 &&
+              response2.data.results.length != 0
+            ) {
+              console.log(response2.data.results);
+              console.log(response1.data.results);
+              this.findedArray = [
+                ...response1.data.results,
+                ...response2.data.results,
+              ];
+              console.log(this.findedArray);
+              this.$emit("receiveArray", this.findedArray);
+              this.queryString = "";
+            }
           })
         );
-      
     },
   },
 };
