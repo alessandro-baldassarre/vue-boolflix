@@ -1,6 +1,21 @@
 <template>
   <header>
-    <h1 class="text-danger">title</h1>
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container-fluid">
+        <div class="logo-brand">
+          <a class="navbar-brand">Navbar</a>
+        </div>
+        <div class="d-flex">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </div>
+      </div>
+    </nav>
   </header>
 </template>
 
