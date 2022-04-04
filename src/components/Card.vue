@@ -1,26 +1,29 @@
 <template>
-  <div class="card-wrapper" @mouseover="hover = true" @mouseleave="hover = false" >
-    <div v-if="(hover)" class="card-info text-white">
+  <div class="card-wrapper shadow" @mouseover="hover = true" @mouseleave="hover = false" >
+    <div v-if="(hover)" class="card-info text-white p-1">
        <ul>
       <li>
-        {{ title() }}
+        Titolo: {{ title() }}
+      </li>
+      <li v-if="(findedElement.original_title != findedElement.title) || (findedElement.name != findedElement.original_name)">
+        Titolo originale: {{ originalTitle() }}
       </li>
       <li>
-        {{ originalTitle() }}
+       Lingua: {{ flag() }}
       </li>
       <li>
-        {{ flag() }}
-      </li>
-      <li>
-        {{ finalVote() }}
+       Voto: {{ finalVote() }}
         <span v-for="index in finalVote()" :key="index" class="text-warning">
           <font-awesome-icon icon="fa-solid fa-star" />
         </span>
       </li>
+      <!-- <li class="overview">
+       Overview: {{ findedElement.overview}}
+      </li> -->
     </ul>
     </div>
     <div v-else class="card-poster">
-      <img :src="posterUrl()" :alt="'poster of ' + title()" class="rounded" />
+      <img :src="posterUrl()" :alt="'poster of ' + title()"/>
     </div>
   </div>
 </template>
@@ -71,7 +74,7 @@ export default {
         );
       }
 
-      return "#";
+      return "https://www.translationvalley.com/wp-content/uploads/2020/03/no-iamge-placeholder.jpg";
     },
     finalVote() {
       return Math.round((this.findedElement.vote_average / 10) * 5);
@@ -88,9 +91,12 @@ export default {
   height: 100%;
   cursor: pointer;
   .card-poster {
+    height: 100%;
     img {
       width: 100%;
       height: 100%;
+      border-radius: 15px;
+      object-fit: cover;
     }
   }
   .card-info{
@@ -100,5 +106,10 @@ export default {
     // transform: scale(1.2);
     height: 100%;
   }
+  .overview{
+    max-height: 30%;
+    overflow-y:auto;
+  }
+  
 }
 </style>
