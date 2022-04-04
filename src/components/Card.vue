@@ -1,6 +1,6 @@
 <template>
-  <div class="card-wrapper" @mouseleave="mouseLeave()" @mouseover="mouseOver()"  >
-    <div v-if="(hover)" class="info text-white">
+  <div class="card-wrapper" @mouseover="hover = true" @mouseleave="hover = false" >
+    <div v-if="(hover)" class="card-info text-white">
        <ul>
       <li>
         {{ title() }}
@@ -22,32 +22,6 @@
     <div v-else class="card-poster">
       <img :src="posterUrl()" :alt="'poster of ' + title()" class="rounded" />
     </div>
-    <!-- <ul>
-      <li>
-        {{ title() }}
-      </li>
-      <li>
-        {{ originalTitle() }}
-      </li>
-      <li>
-        {{ flag() }}
-      </li>
-      <li>
-        {{ finalVote() }}
-        <span v-for="index in finalVote()" :key="index" class="text-warning">
-          <font-awesome-icon icon="fa-solid fa-star" />
-        </span>
-      </li>
-      <li>
-        <img :src="posterUrl()" :alt="'poster of ' + title()" />
-      </li>
-      <li>
-        <span class="text-small">
-          {{ findedElement.overview }}
-        </span>
-        
-      </li>
-    </ul> -->
   </div>
 </template>
 
@@ -102,12 +76,6 @@ export default {
     finalVote() {
       return Math.round((this.findedElement.vote_average / 10) * 5);
     },
-    mouseOver() {
-      this.hover = true;
-    },
-    mouseLeave() {
-      this.hover = false;
-    }
   },
 };
 </script>
@@ -117,11 +85,20 @@ export default {
 @import "@/assets/scss/partials/_variables";
 
 .card-wrapper {
+  height: 100%;
   cursor: pointer;
   .card-poster {
     img {
       width: 100%;
+      height: 100%;
     }
+  }
+  .card-info{
+    background-color: $mainBgDark;
+    border: 1px solid black;
+    border-radius: 15px;
+    // transform: scale(1.2);
+    height: 100%;
   }
 }
 </style>
