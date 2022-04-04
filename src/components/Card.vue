@@ -10,7 +10,16 @@
         :src="posterUrl()"
         :alt="'poster of ' + title()"
       />
-      <div class="card-info-text pt-3 ps-1 d-flex flex-column justify-content-evenly">
+      <div
+        class="
+          card-info-text
+          pt-3
+          ps-md-1
+          d-flex
+          flex-column
+          justify-content-evenly
+        "
+      >
         <div>Titolo: {{ title() }}</div>
         <div
           v-if="
@@ -24,14 +33,21 @@
         <div class="d-flex justify-content-between">
           <div class="vote me-4">
             Voto:
-          <span v-for="index in finalVote()" :key="index" class="text-warning">
-            <font-awesome-icon icon="fa-solid fa-star" />
-          </span>
+            <span
+              v-for="index in finalVote()"
+              :key="index"
+              class="text-warning"
+            >
+              <font-awesome-icon icon="fa-solid fa-star" />
+            </span>
           </div>
-          <div class="icon-find-more pe-3">
-            <span class="rounded-circle border border-light p-1">
+          <div class="icon-find-more me-3 position-relative d-flex justify-content-center">
+            <span
+              class="icon-find-more-icon rounded-circle border border-light p-1 "
+            >
               <font-awesome-icon icon="fa-solid fa-chevron-down" />
             </span>
+            <span class="icon-find-more-text position-absolute"> Altre info </span>
           </div>
         </div>
       </div>
@@ -134,19 +150,38 @@ export default {
       object-fit: cover;
       object-position: top;
     }
-    .card-info-text{
+    .card-info-text {
       height: 50%;
-      font-size: .8rem;
-      @media screen and (max-width: 1250px) {
-        font-size: .65rem;
+      font-size: 0.6rem;
+      @media screen and (min-width: 1200px) {
+        font-size: 0.8rem;
+      }
+      @media screen and (min-width: 992px) {
+        font-size: 0.7rem;
+      }
+     @media screen and (min-width: 768px) {
+        font-size: 0.6rem;
+      }
+      @media screen and (min-width: 576px) {
+        font-size: 0.6rem;
       }
     }
-    .icon-find-more{
-      span{
+    .icon-find-more {
+      &:hover span.icon-find-more-text {
+        display: block;
+        bottom:  32px;
+        left: -40%;
+      }
+      span.icon-find-more-icon {
         cursor: pointer;
-        &:hover{
+        &:hover {
           background-color: $mainBgDark;
         }
+      }
+      span.icon-find-more-text{
+        display: none;
+        width: 150px;
+        font-size: .5rem;
       }
     }
   }
