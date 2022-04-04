@@ -1,15 +1,17 @@
 <template>
   <main>
-    <div class="cards text-white" v-for="(element, index) in arraySent" :key="index">
-      <Card :findedElement="element"/>
+    <div class="container-fluid px-5">
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 pt-4 g-3">
+        <div class="col" v-for="(element, index) in arraySent" :key="index">
+          <Card :findedElement="element" />
+        </div>
+      </div>
     </div>
-    
   </main>
 </template>
 
 <script>
 import Card from "./Card.vue";
-
 
 export default {
   name: "MainContent",

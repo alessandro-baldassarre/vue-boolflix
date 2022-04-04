@@ -1,6 +1,28 @@
 <template>
-  <div>
-    <ul>
+  <div class="card-wrapper" @mouseleave="mouseLeave()" @mouseover="mouseOver()"  >
+    <div v-if="(hover)" class="info text-white">
+       <ul>
+      <li>
+        {{ title() }}
+      </li>
+      <li>
+        {{ originalTitle() }}
+      </li>
+      <li>
+        {{ flag() }}
+      </li>
+      <li>
+        {{ finalVote() }}
+        <span v-for="index in finalVote()" :key="index" class="text-warning">
+          <font-awesome-icon icon="fa-solid fa-star" />
+        </span>
+      </li>
+    </ul>
+    </div>
+    <div v-else class="card-poster">
+      <img :src="posterUrl()" :alt="'poster of ' + title()" class="rounded" />
+    </div>
+    <!-- <ul>
       <li>
         {{ title() }}
       </li>
@@ -25,7 +47,7 @@
         </span>
         
       </li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 
@@ -41,6 +63,7 @@ export default {
   data: function () {
     return {
       flagToSearch: this.findedElement.original_language,
+      hover: false,
     };
   },
   methods: {
@@ -68,16 +91,23 @@ export default {
       return this.findedElement.original_title;
     },
     posterUrl() {
-      if(this.findedElement.poster_path !== null){
-         return "https://image.tmdb.org/t/p/w45/" + this.findedElement.poster_path;
+      if (this.findedElement.poster_path !== null) {
+        return (
+          "https://image.tmdb.org/t/p/w342/" + this.findedElement.poster_path
+        );
       }
 
-      return '#'
-
+      return "#";
     },
     finalVote() {
       return Math.round((this.findedElement.vote_average / 10) * 5);
     },
+    mouseOver() {
+      this.hover = true;
+    },
+    mouseLeave() {
+      this.hover = false;
+    }
   },
 };
 </script>
@@ -86,7 +116,12 @@ export default {
 <style scoped lang="scss">
 @import "@/assets/scss/partials/_variables";
 
-.text-small{
-  font-size: .6rem;
+.card-wrapper {
+  cursor: pointer;
+  .card-poster {
+    img {
+      width: 100%;
+    }
+  }
 }
 </style>
