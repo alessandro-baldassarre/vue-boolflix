@@ -4,7 +4,7 @@
     @mouseover="hover = true"
     @mouseleave="hover = false"
   >
-    <div v-if="hover" class="card-info text-white p-1">
+    <div v-if="hover && !clickInfo" class="card-info text-white p-1">
       <img
         class="card-info-img"
         :src="posterUrl()"
@@ -13,13 +13,36 @@
       <div
         class="
           card-info-text
-          pt-3
+          pt-4
           ps-md-1
           d-flex
           flex-column
           justify-content-evenly
+          position-relative
         "
       >
+        <div
+          class="icon-find-more position-absolute"
+          @click="clickInfo = true"
+        >
+          <span
+            class="
+              icon-find-more-icon
+              rounded-circle
+              border border-light
+              d-inline-block d-flex
+              align-items-center
+              justify-content-center
+              p-1
+            "
+          >
+            <font-awesome-icon icon="fa-solid fa-chevron-down" size="xs" />
+          </span>
+          <span class="icon-find-more-text position-absolute">
+            Altre info
+          </span>
+        </div>
+
         <div>Titolo: {{ title() }}</div>
         <div
           v-if="
@@ -41,20 +64,17 @@
               <font-awesome-icon icon="fa-solid fa-star" />
             </span>
           </div>
-          <div class="icon-find-more me-3 position-relative d-flex justify-content-center">
-            <span
-              class="icon-find-more-icon rounded-circle border border-light p-1 "
-            >
-              <font-awesome-icon icon="fa-solid fa-chevron-down" />
-            </span>
-            <span class="icon-find-more-text position-absolute"> Altre info </span>
-          </div>
         </div>
       </div>
-
-      <!-- <li class="overview">
-       Overview: {{ findedElement.overview}}
-      </li> -->
+    </div>
+    <div
+      v-else-if="hover && clickInfo"
+      class="overview text-white p-2 d-flex flex-column align-items-end"
+    >
+      <span class="p-1 mb-3 cursor-pointer" @click="clickInfo = false">
+        <font-awesome-icon icon="fa-solid fa-chevron-down" />
+      </span>
+      Overview: <br />{{ findedElement.overview }}
     </div>
     <div v-else class="card-poster">
       <img
@@ -79,6 +99,7 @@ export default {
     return {
       flagToSearch: this.findedElement.original_language,
       hover: false,
+      clickInfo: false,
     };
   },
   methods: {
@@ -159,18 +180,20 @@ export default {
       @media screen and (min-width: 992px) {
         font-size: 0.7rem;
       }
-     @media screen and (min-width: 768px) {
+      @media screen and (min-width: 768px) {
         font-size: 0.6rem;
       }
       @media screen and (min-width: 576px) {
         font-size: 0.6rem;
       }
     }
-    .icon-find-more {
+    div.icon-find-more {
+      top: 18px;
+      right: 10px;
       &:hover span.icon-find-more-text {
         display: block;
-        bottom:  32px;
-        left: -40%;
+        bottom: 18px;
+        left: -50%;
       }
       span.icon-find-more-icon {
         cursor: pointer;
@@ -178,15 +201,21 @@ export default {
           background-color: $mainBgDark;
         }
       }
-      span.icon-find-more-text{
+      span.icon-find-more-text {
         display: none;
         width: 150px;
-        font-size: .5rem;
+        font-size: .4rem;
       }
     }
   }
+
   .overview {
-    max-height: 30%;
+    background-color: #181818;
+    height: 100%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 15px;
+    transform: scale(1.6, 1.24);
+    font-size: 0.6rem;
     overflow-y: auto;
   }
 }
