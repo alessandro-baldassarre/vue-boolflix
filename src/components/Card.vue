@@ -13,7 +13,7 @@
       <div
         class="
           card-info-text
-          pt-4
+          pt-5
           ps-md-1
           d-flex
           flex-column
@@ -219,26 +219,14 @@ div.card-wrapper {
     }
     .card-info-text {
       height: 50%;
-      font-size: 0.6rem;
-      @media screen and (min-width: 1200px) {
-        font-size: 1rem;
-      }
-      @media screen and (min-width: 992px) {
-        font-size: 0.7rem;
-      }
-      @media screen and (min-width: 768px) {
-        font-size: 0.6rem;
-      }
-      @media screen and (min-width: 576px) {
-        font-size: 0.6rem;
-      }
+      overflow-x:hidden ;
     }
     div.icon-find-more {
       top: 18px;
       right: 10px;
       &:hover span.icon-find-more-text {
         display: block;
-        bottom: 18px;
+        bottom: 20px;
         left: -50%;
       }
       span.icon-find-more-icon {
@@ -250,7 +238,7 @@ div.card-wrapper {
       span.icon-find-more-text {
         display: none;
         width: 150px;
-        font-size: 0.4rem;
+        font-size: 0.6rem;
       }
     }
   }
