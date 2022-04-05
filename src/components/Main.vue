@@ -17,7 +17,7 @@
     <div v-else class="container-fluid p-5">
       <div class="row px-2">
         <div class="col-12">
-          <h4 class="text-white">I titoli del momento</h4>
+          <h4 class="text-white">I titoli del giorno</h4>
         </div>
       </div>
       <div
@@ -28,13 +28,14 @@
           flex-nowrap
           position-relative
           justify-content-center
+          mb-5
         "
       >
         <div
           class="col"
           v-for="(element, index) in responseApi"
           :key="index"
-          :class="[activeElements.includes(index) ? 'd-none' : '']"
+          :class="[activeElementsDay.includes(index) ? 'd-none' : '']"
         >
           <Card :findedElement="element" />
         </div>
@@ -49,7 +50,7 @@
             justify-content-center
           "
         >
-          <span class="my-next fs-1" @click="nextSlide()">
+          <span class="my-next fs-1" @click="nextSlide(responseApi,activeElementsDay)">
             <font-awesome-icon icon="fa-solid fa-chevron-right" size="xs" />
           </span>
         </div>
@@ -64,7 +65,61 @@
             justify-content-center
           "
         >
-          <span class="my-previous fs-1" @click="prevSlide()">
+          <span class="my-previous fs-1" @click="prevSlide(activeElementsDay)">
+            <font-awesome-icon icon="fa-solid fa-chevron-left" size="xs" />
+          </span>
+        </div>
+      </div>
+        <div class="row px-2">
+        <div class="col-12">
+          <h4 class="text-white">i titoli della settimana</h4>
+        </div>
+      </div>
+      <div
+        class="
+          row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6
+          px-3
+          gx-3
+          flex-nowrap
+          position-relative
+          justify-content-center
+        "
+      >
+        <div
+          class="col"
+          v-for="(element, index) in trendingWeek"
+          :key="index"
+          :class="[activeElementsWeek.includes(index) ? 'd-none' : '']"
+        >
+          <Card :findedElement="element" />
+        </div>
+        <div
+          class="
+            col
+            my-next
+            position-absolute
+            text-white
+            d-flex
+            align-items-center
+            justify-content-center
+          "
+        >
+          <span class="my-next fs-1" @click="nextSlide(trendingWeek,activeElementsWeek)">
+            <font-awesome-icon icon="fa-solid fa-chevron-right" size="xs" />
+          </span>
+        </div>
+        <div
+          class="
+            col
+            my-previous
+            position-absolute
+            text-white
+            d-flex
+            align-items-center
+            justify-content-center
+          "
+        >
+          <span class="my-previous fs-1" @click="prevSlide(activeElementsWeek)">
             <font-awesome-icon icon="fa-solid fa-chevron-left" size="xs" />
           </span>
         </div>
@@ -88,8 +143,9 @@ export default {
   data: function () {
     return {
       responseApi: null,
-      // activeElements: [0,1,2,3,4,5,6,7,16,17,18,19,20,21],
-      activeElements: [],
+      trendingWeek :  null,
+      activeElementsDay: [],
+      activeElementsWeek: [],
       nextElement: null,
       prevElement: null,
     };
@@ -107,39 +163,53 @@ export default {
           console.log(e);
         });
     },
-    nextSlide() {
-      if (this.activeElements.length == 0){
-        this.nextElement = this.responseApi.length - 1;
+    callTrendWeek(){
+      axios
+        .get(
+          `https://api.themoviedb.org/3/trending/all/week?api_key=e99307154c6dfb0b4750f6603256716d`
+        )
+        .then((response) => {
+          this.trendingWeek = response.data.results;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+    nextSlide(startingArray, referenceArray) {
+      if (referenceArray.length == 0){
+        this.nextElement = startingArray.length - 1;
       }
       if(this.nextElement == 5){
-        this.activeElements = [];
-        return;
+        referenceArray = [];
+        this.activeElementsDay = [];
+        this.activeElementsWeek = [];
       }
-      if(this.nextElement == null && this.activeElements.length != 0){
-        this.activeElements.pop();
-        return;
+      if(this.nextElement == null && referenceArray.length != 0){
+        referenceArray.pop();
       }
-      this.activeElements.push(this.nextElement);
+      referenceArray.push(this.nextElement);
       this.nextElement --;
+      
     },
-    prevSlide() {
-      if (this.activeElements.length == 0){
+    prevSlide(referenceArray) {
+      if (referenceArray.length == 0){
         this.prevElement = 0;
       }
       if(this.prevElement == 12){
-        this.activeElements = [];
-        return;
+        referenceArray = [];
+        this.activeElementsDay = [];
+        this.activeElementsWeek = [];
       }
-      if(this.prevElement == null && this.activeElements.length != 0){
-        this.activeElements.pop();
-        return;
+      if(this.prevElement == null && referenceArray.length != 0){
+        referenceArray.pop();
       }
-        this.activeElements.push(this.prevElement);
+        referenceArray.push(this.prevElement);
         this.prevElement++;
       }
   },
   created() {
     this.callApi();
+    this.callTrendWeek();
   },
 };
 </script>
