@@ -50,7 +50,10 @@
             justify-content-center
           "
         >
-          <span class="my-next fs-1" @click="nextSlide(responseApi,activeElementsDay)">
+          <span
+            class="my-next fs-1"
+            @click="nextSlide(responseApi, activeElementsDay)"
+          >
             <font-awesome-icon icon="fa-solid fa-chevron-right" size="xs" />
           </span>
         </div>
@@ -65,12 +68,12 @@
             justify-content-center
           "
         >
-          <span class="my-previous fs-1" @click="prevSlide(activeElementsDay)">
+          <span class="my-previous fs-1" @click="prevSlide(responseApi, activeElementsDay)">
             <font-awesome-icon icon="fa-solid fa-chevron-left" size="xs" />
           </span>
         </div>
       </div>
-        <div class="row px-2">
+      <div class="row px-2">
         <div class="col-12">
           <h4 class="text-white">i titoli della settimana</h4>
         </div>
@@ -104,7 +107,10 @@
             justify-content-center
           "
         >
-          <span class="my-next fs-1" @click="nextSlide(trendingWeek,activeElementsWeek)">
+          <span
+            class="my-next fs-1"
+            @click="nextSlide(trendingWeek, activeElementsWeek)"
+          >
             <font-awesome-icon icon="fa-solid fa-chevron-right" size="xs" />
           </span>
         </div>
@@ -119,7 +125,7 @@
             justify-content-center
           "
         >
-          <span class="my-previous fs-1" @click="prevSlide(activeElementsWeek)">
+          <span class="my-previous fs-1" @click="prevSlide(trendingWeek, activeElementsWeek)">
             <font-awesome-icon icon="fa-solid fa-chevron-left" size="xs" />
           </span>
         </div>
@@ -143,7 +149,7 @@ export default {
   data: function () {
     return {
       responseApi: null,
-      trendingWeek :  null,
+      trendingWeek: null,
       activeElementsDay: [],
       activeElementsWeek: [],
       nextElement: null,
@@ -163,7 +169,7 @@ export default {
           console.log(e);
         });
     },
-    callTrendWeek(){
+    callTrendWeek() {
       axios
         .get(
           `https://api.themoviedb.org/3/trending/all/week?api_key=e99307154c6dfb0b4750f6603256716d`
@@ -176,36 +182,49 @@ export default {
         });
     },
     nextSlide(startingArray, referenceArray) {
-      if (referenceArray.length == 0){
+      console.log(referenceArray);
+      if (referenceArray.length == 0) {
         this.nextElement = startingArray.length - 1;
-      }
-      if(this.nextElement == 5){
+      } 
+      if (this.nextElement == 5) {
         referenceArray = [];
         this.activeElementsDay = [];
         this.activeElementsWeek = [];
-      }
-      if(this.nextElement == null && referenceArray.length != 0){
+        this.nextElement = null;
+        this.prevElement = null;
+      } 
+      if (this.nextElement == null && referenceArray.length != 0) {
         referenceArray.pop();
+    
       }
-      referenceArray.push(this.nextElement);
-      this.nextElement --;
+  
+         if(this.nextElement != null){
+        referenceArray.push(this.nextElement);
+      this.nextElement--;
+      }
       
     },
-    prevSlide(referenceArray) {
-      if (referenceArray.length == 0){
+    prevSlide( startingArray, referenceArray) {
+      console.log(referenceArray);
+      if (referenceArray.length == 0) {
         this.prevElement = 0;
-      }
-      if(this.prevElement == 12){
+      } 
+      if (this.prevElement == 12) {
         referenceArray = [];
         this.activeElementsDay = [];
         this.activeElementsWeek = [];
-      }
-      if(this.prevElement == null && referenceArray.length != 0){
+        this.nextElement = null;
+        this.prevElement = null;
+      } 
+      if (this.prevElement == null && referenceArray.length != 0) {
         referenceArray.pop();
       }
-        referenceArray.push(this.prevElement);
-        this.prevElement++;
-      }
+  if(this.prevElement != null){
+    referenceArray.push(this.prevElement);
+      this.prevElement++;
+  }
+      
+    },
   },
   created() {
     this.callApi();
