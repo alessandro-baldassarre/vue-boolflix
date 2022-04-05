@@ -55,8 +55,15 @@ export default {
             this.$emit("receiveArray", this.findedArray);
           }
         });
+      } else {
+        this.findedArray = null;
+        this.$emit("receiveArray", this.findedArray);
       }
     },
+  },
+  created() {
+    this.findedArray = null;
+    this.$emit("receiveArray", this.findedArray);
   },
 };
 </script>
@@ -64,14 +71,13 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import "@/assets/scss/partials/_variables";
-header{
+header {
   background-color: $mainBgDark;
   .logo-brand {
-  img {
-    height: 25px;
-    width: 145px;
+    img {
+      height: 25px;
+      width: 145px;
+    }
   }
 }
-}
-
 </style>

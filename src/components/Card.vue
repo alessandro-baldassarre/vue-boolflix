@@ -21,10 +21,7 @@
           position-relative
         "
       >
-        <div
-          class="icon-find-more position-absolute"
-          @click="clickInfo = true"
-        >
+        <div class="icon-find-more position-absolute" @click="clickInfo = true">
           <span
             class="
               icon-find-more-icon
@@ -146,7 +143,7 @@ export default {
 <style scoped lang="scss">
 @import "@/assets/scss/partials/_variables";
 
-.card-wrapper {
+div.card-wrapper {
   height: 100%;
   .card-poster {
     height: 100%;
@@ -163,7 +160,9 @@ export default {
     height: 100%;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 15px;
-    transform: scale(1.6, 1.24);
+    transform: scale(1.4, 1.2);
+    z-index: 2;
+    position: relative;
     img {
       width: 100%;
       height: 50%;
@@ -175,7 +174,7 @@ export default {
       height: 50%;
       font-size: 0.6rem;
       @media screen and (min-width: 1200px) {
-        font-size: 0.8rem;
+        font-size: 1rem;
       }
       @media screen and (min-width: 992px) {
         font-size: 0.7rem;
@@ -204,7 +203,7 @@ export default {
       span.icon-find-more-text {
         display: none;
         width: 150px;
-        font-size: .4rem;
+        font-size: 0.4rem;
       }
     }
   }
@@ -214,9 +213,11 @@ export default {
     height: 100%;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 15px;
-    transform: scale(1.6, 1.24);
+    transform: scale(1.4, 1.2);
     font-size: 0.6rem;
     overflow-y: auto;
+    z-index: 2;
+    position: relative;
   }
 }
 </style>
