@@ -145,6 +145,7 @@ export default {
 
 div.card-wrapper {
   height: 100%;
+  position: relative;
   .card-poster {
     height: 100%;
     img {
@@ -155,14 +156,60 @@ div.card-wrapper {
       object-position: center;
     }
   }
-  .card-info {
+  .card-info ,
+  .overview{
     background-color: #181818;
-    height: 100%;
+    height: 440px;
+    width: 330px;
+    left: -22%;
+    top: -12%;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 15px;
-    transform: scale(1.4, 1.2);
     z-index: 2;
-    position: relative;
+    position: absolute;
+    overflow-y: auto;
+    @media screen and (max-width: 1500px) and (min-width: 1300px) {
+      height: 350px;
+      width: 250px;
+      left: -12%;
+      top: -8%;
+    }
+    @media screen and (max-width: 1299px) and (min-width: 952px) {
+      height: 340px;
+      width: 250px;
+      left: -12%;
+      top: -10%;
+    }
+    @media screen and (max-width: 951px) and (min-width: 768px) {
+      height: 330px;
+      width: 230px;
+      left: -12%;
+      top: -12%;
+    }
+    @media screen and (max-width: 767px) and (min-width: 650px) {
+      height: 330px;
+      width: 240px;
+      left: -12%;
+      top: -8%;
+    }
+    @media screen and (max-width: 649px) and (min-width: 577px){
+      height: 300px;
+      width: 200px;
+      left: -12%;
+      top: -12%;
+    }
+     @media screen and (max-width: 576px) and (min-width: 481px){
+      height: 370px;
+      width: 240px;
+      left: -12%;
+      top: -12%;
+    }
+    @media screen and (max-width: 480px){
+      height: 300px;
+      width: 200px;
+      left: -12%;
+      top: -12%;
+    }
     img {
       width: 100%;
       height: 50%;
@@ -208,16 +255,18 @@ div.card-wrapper {
     }
   }
 
-  .overview {
-    background-color: #181818;
-    height: 100%;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    border-radius: 15px;
-    transform: scale(1.4, 1.2);
-    font-size: 0.6rem;
-    overflow-y: auto;
-    z-index: 2;
-    position: relative;
-  }
+  // .overview {
+  //   background-color: #181818;
+  //   height: 400px;
+  //   width: 280px;
+  //   left: -12%;
+  //   top: -12%;
+  //   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  //   border-radius: 15px;
+  //   font-size: 0.6rem;
+  //   overflow-y: auto;
+  //   z-index: 2;
+  //   position: absolute;
+  // }
 }
 </style>
