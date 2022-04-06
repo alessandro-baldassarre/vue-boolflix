@@ -1,7 +1,41 @@
 <template>
   <main>
     <div v-if="arraySent != null" class="container-fluid p-5">
+      <div class="row">
+        <div class="col-12">
+          <div class="select-bar px-5">
+            <select v-model="option" name="select-album" id="select-album" class="bg-dark text-white">
+              <option class="bg-dark" value="" selected>Scegli Genere</option>
+              <option class="bg-dark"
+                v-for="(element, index) in genresAll"
+                :key="index"
+                :value="element"
+              >
+                {{ element.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+     <div
+        v-if="option != ''"
+        class="
+          row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6
+          p-2 p-lg-5
+          gx-3
+          gy-4
+        "
+      >
+        <div
+          class="col"
+          v-for="(element, index) in searchedFiltered"
+          :key="index"
+        >
+          <Card :findedElement="element" />
+        </div>
+      </div>
       <div
+        v-else
         class="
           row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6
           p-2 p-lg-5
@@ -265,6 +299,7 @@ export default {
       prevElement: null,
       genresMoviesList: null,
       genresTvShowsList: null,
+      genresAll: null,
       option: "",
     };
   },
@@ -312,6 +347,19 @@ export default {
         )
         .then((response) => {
           this.genresTvShowsList = response.data.genres;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+      callGenresAll() {
+         let URL1 = `https://api.themoviedb.org/3/genre/tv/list?api_key=e99307154c6dfb0b4750f6603256716d&language=en-US`;
+        let URL2 = `https://api.themoviedb.org/3/genre/movie/list?api_key=e99307154c6dfb0b4750f6603256716d&language=en-US`;
+      axios.all([axios.get(URL1), axios.get(URL2)]).then((values) => {
+          this.genresAll = [
+            ...values[0].data.genres,
+            ...values[1].data.genres,
+          ];
         })
         .catch((e) => {
           console.log(e);
@@ -375,6 +423,20 @@ export default {
 
       return filteredTvShows;
     },
+    searchedFiltered() {
+      let filteredTvShows = this.arraySent.filter((element) => {
+        return element.genre_ids.includes(this.option.id);
+      });
+
+      return filteredTvShows;
+    },
+    genresSearchedFiltered() {
+      let filteredGenres = this.gen.filter((movie) => {
+        return movie.genre_ids.includes(this.option.id);
+      });
+
+      return filteredGenres;
+    },
   },
 
   created() {
@@ -382,6 +444,7 @@ export default {
     this.callTrendWeek();
     this.callGenresMovies();
     this.callGenresTvShows();
+    this.callGenresAll();
   },
 };
 </script>

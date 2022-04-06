@@ -29,7 +29,7 @@
             v-if="expandInput"
             class="form-control me-2 bg-dark text-white"
             type="search"
-            placeholder="Search"
+            placeholder="Movies, TV Shows.."
             aria-label="Search"
             v-model="queryString"
             @keyup="searchString()"
