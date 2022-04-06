@@ -1,12 +1,19 @@
 <template>
   <main>
+    <!-- div con i dati ricercati nel form -->
     <div v-if="arraySent != null" class="container-fluid p-5">
       <div class="row">
         <div class="col-12">
           <div class="select-bar px-5">
-            <select v-model="option" name="select-album" id="select-album" class="bg-dark text-white">
+            <select
+              v-model="option"
+              name="select-album"
+              id="select-album"
+              class="bg-dark text-white"
+            >
               <option class="bg-dark" value="" selected>Scegli Genere</option>
-              <option class="bg-dark"
+              <option
+                class="bg-dark"
                 v-for="(element, index) in genresAll"
                 :key="index"
                 :value="element"
@@ -17,7 +24,7 @@
           </div>
         </div>
       </div>
-     <div
+      <div
         v-if="option != ''"
         class="
           row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6
@@ -49,6 +56,7 @@
       </div>
     </div>
 
+    <!-- div con i dati dei film più popolari -->
     <div
       v-else-if="arraySent == null && tvShowsSent == null && moviesSent != null"
       class="container-fluid p-5"
@@ -56,9 +64,15 @@
       <div class="row">
         <div class="col-12">
           <div class="select-bar px-5">
-            <select v-model="option" name="select-album" id="select-album" class="bg-dark text-white">
+            <select
+              v-model="option"
+              name="select-album"
+              id="select-album"
+              class="bg-dark text-white"
+            >
               <option class="bg-dark" value="" selected>Scegli Genere</option>
-              <option class="bg-dark"
+              <option
+                class="bg-dark"
                 v-for="(element, index) in genresMoviesList"
                 :key="index"
                 :value="element"
@@ -101,16 +115,23 @@
       </div>
     </div>
 
+    <!-- div con i dati delle serie TV più popolari -->
     <div
       v-else-if="arraySent == null && moviesSent == null && tvShowsSent != null"
       class="container-fluid p-5"
     >
-    <div class="row">
+      <div class="row">
         <div class="col-12">
           <div class="select-bar px-5">
-            <select v-model="option" name="select-album" id="select-album" class="bg-dark text-white">
+            <select
+              v-model="option"
+              name="select-album"
+              id="select-album"
+              class="bg-dark text-white"
+            >
               <option class="bg-dark" value="" selected>Scegli Genere</option>
-              <option class="bg-dark"
+              <option
+                class="bg-dark"
                 v-for="(element, index) in genresTvShowsList"
                 :key="index"
                 :value="element"
@@ -122,7 +143,7 @@
         </div>
       </div>
       <div
-      v-if="option != ''"
+        v-if="option != ''"
         class="
           row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6
           p-2 p-lg-5
@@ -130,7 +151,11 @@
           gy-4
         "
       >
-        <div class="col" v-for="(element, index) in tvShowsFiltered" :key="index">
+        <div
+          class="col"
+          v-for="(element, index) in tvShowsFiltered"
+          :key="index"
+        >
           <Card :findedElement="element" />
         </div>
       </div>
@@ -149,8 +174,11 @@
       </div>
     </div>
 
+    <!-- div con i dati dei film e serie TV in trend -->
     <div v-else class="container-fluid p-5">
       <div class="row px-2">
+
+        <!-- i titoli del giorno -->
         <div class="col-12">
           <h4 class="text-white">I titoli del giorno</h4>
         </div>
@@ -166,6 +194,7 @@
           mb-5
         "
       >
+        <!-- div che viene visualizzato in base allo scorrimento delle card -->
         <div
           class="col"
           v-for="(element, index) in responseApi"
@@ -185,6 +214,7 @@
             justify-content-center
           "
         >
+          <!-- span con l'icona per lo scorrimento della prossima card -->
           <span
             class="my-next fs-1"
             @click="nextSlide(responseApi, activeElementsDay)"
@@ -203,6 +233,7 @@
             justify-content-center
           "
         >
+          <!-- span con l'icona per lo scorrimento della card precedente -->
           <span
             class="my-previous fs-1"
             @click="prevSlide(responseApi, activeElementsDay)"
@@ -212,6 +243,8 @@
         </div>
       </div>
       <div class="row px-2">
+
+        <!-- i titoli della settimana -->
         <div class="col-12">
           <h4 class="text-white">i titoli della settimana</h4>
         </div>
@@ -225,7 +258,8 @@
           position-relative
           justify-content-center
         "
-      >
+      > 
+        <!-- div che viene visualizzato in base allo scorrimento delle card -->
         <div
           class="col"
           v-for="(element, index) in trendingWeek"
@@ -245,6 +279,7 @@
             justify-content-center
           "
         >
+          <!-- span con l'icona per lo scorrimento della prossima card -->
           <span
             class="my-next fs-1"
             @click="nextSlide(trendingWeek, activeElementsWeek)"
@@ -263,6 +298,8 @@
             justify-content-center
           "
         >
+
+           <!-- span con l'icona per lo scorrimento della card precedente -->
           <span
             class="my-previous fs-1"
             @click="prevSlide(trendingWeek, activeElementsWeek)"
@@ -304,6 +341,7 @@ export default {
     };
   },
   methods: {
+    // method per cercare attraverso l'API i trend del giorno
     callApi() {
       axios
         .get(
@@ -316,6 +354,7 @@ export default {
           console.log(e);
         });
     },
+    // method per cercare attraverso l'API i trend della settimana
     callTrendWeek() {
       axios
         .get(
@@ -328,6 +367,7 @@ export default {
           console.log(e);
         });
     },
+    // method per cercare attraverso l'API tutti i generi dei film
     callGenresMovies() {
       axios
         .get(
@@ -340,6 +380,7 @@ export default {
           console.log(e);
         });
     },
+    // method per cercare attraverso l'API tutti i generi delle serie TV
     callGenresTvShows() {
       axios
         .get(
@@ -352,19 +393,20 @@ export default {
           console.log(e);
         });
     },
-      callGenresAll() {
-         let URL1 = `https://api.themoviedb.org/3/genre/tv/list?api_key=e99307154c6dfb0b4750f6603256716d&language=en-US`;
-        let URL2 = `https://api.themoviedb.org/3/genre/movie/list?api_key=e99307154c6dfb0b4750f6603256716d&language=en-US`;
-      axios.all([axios.get(URL1), axios.get(URL2)]).then((values) => {
-          this.genresAll = [
-            ...values[0].data.genres,
-            ...values[1].data.genres,
-          ];
+    // method per cercare attraverso l'API tutti i generi sia dei film che delle serie tv
+    callGenresAll() {
+      let URL1 = `https://api.themoviedb.org/3/genre/tv/list?api_key=e99307154c6dfb0b4750f6603256716d&language=en-US`;
+      let URL2 = `https://api.themoviedb.org/3/genre/movie/list?api_key=e99307154c6dfb0b4750f6603256716d&language=en-US`;
+      axios
+        .all([axios.get(URL1), axios.get(URL2)])
+        .then((values) => {
+          this.genresAll = [...values[0].data.genres, ...values[1].data.genres];
         })
         .catch((e) => {
           console.log(e);
         });
     },
+    // method per l'avanzamento a destra delle card nel carosello
     nextSlide(startingArray, referenceArray) {
       console.log(referenceArray);
       if (referenceArray.length == 0) {
@@ -386,6 +428,7 @@ export default {
         this.nextElement--;
       }
     },
+    // method per l'avanzamento a sinistra delle card nel carosello
     prevSlide(startingArray, referenceArray) {
       console.log(referenceArray);
       if (referenceArray.length == 0) {
@@ -409,6 +452,7 @@ export default {
   },
 
   computed: {
+    // computed per filtrare i film in base al genere scelto dall'utente
     moviesFiltered() {
       let filteredMovies = this.moviesSent.filter((movie) => {
         return movie.genre_ids.includes(this.option.id);
@@ -416,6 +460,7 @@ export default {
 
       return filteredMovies;
     },
+    // computed per filtrare le serie TV in base al genere scelto dall'utente
     tvShowsFiltered() {
       let filteredTvShows = this.tvShowsSent.filter((tvShow) => {
         return tvShow.genre_ids.includes(this.option.id);
@@ -423,6 +468,7 @@ export default {
 
       return filteredTvShows;
     },
+    // computed per filtrare la ricerca fatta dall'utente nel form in base al genere scelto dall'utente
     searchedFiltered() {
       let filteredTvShows = this.arraySent.filter((element) => {
         return element.genre_ids.includes(this.option.id);

@@ -1,9 +1,11 @@
 <template>
+  <!-- card -->
   <div
     class="card-wrapper"
     @mouseover="hover = true"
     @mouseleave="hover = false"
   >
+    <!-- div che viene visualizzato solo quando l'utente è in over sulla card -->
     <div v-if="hover && !clickInfo" class="card-info text-white p-1">
       <img
         class="card-info-img"
@@ -64,6 +66,8 @@
         </div>
       </div>
     </div>
+
+    <!-- div che viene visualizzato solo quando l'utente clicca sull'icona più info -->
     <div
       v-else-if="hover && clickInfo"
       class="overview text-white p-2 d-flex flex-column align-items-end"
@@ -100,6 +104,7 @@ export default {
     };
   },
   methods: {
+    // method che ritorno l'emoji della flag del paese corrispondente alla card attraverso la libreria country-flag
     flag() {
       if (this.flagToSearch === "en") {
         this.flagToSearch = "us";
@@ -111,18 +116,21 @@ export default {
 
       return getUnicodeFlagIcon(this.flagToSearch.toUpperCase());
     },
+    // method che restituisce il titolo sia che sia un film o una serie TV
     title() {
       if (this.findedElement.title === undefined) {
         return this.findedElement.name;
       }
       return this.findedElement.title;
     },
+    // method che restituisce il titolo originale sia che sia un film o una serie TV
     originalTitle() {
       if (this.findedElement.original_title === undefined) {
         return this.findedElement.original_name;
       }
       return this.findedElement.original_title;
     },
+    // method che restituisce l'immagine della card
     posterUrl() {
       if (this.findedElement.poster_path !== null) {
         return (
@@ -132,6 +140,7 @@ export default {
 
       return "https://www.translationvalley.com/wp-content/uploads/2020/03/no-iamge-placeholder.jpg";
     },
+    // method che restituisce il voto
     finalVote() {
       return Math.round((this.findedElement.vote_average / 10) * 5);
     },

@@ -1,5 +1,7 @@
 <template>
+<!-- header -->
   <header class="sticky-top">
+    <!-- navbar -->
     <nav>
       <div
         class="
@@ -12,8 +14,10 @@
         "
       >
         <div>
+          <!-- logo-brand + links -->
           <span>
             <a class="navbar-brand" href="#"
+            @click="reloadPage()"
               ><img src="../assets/img/logo.png" alt=""
             /></a>
             <a
@@ -40,6 +44,7 @@
           </span>
         </div>
 
+        <!-- search form + user account -->
         <div>
           <div class="d-flex align-items-center justify-content-center">
             <div class="me-3 position-relative">
@@ -81,11 +86,11 @@ export default {
       expandInput: false,
       popularMovies: null,
       popularTvShows: null,
-      genresList: null,
     };
   },
   props: {},
   methods: {
+    // method per cercare attraverso l'API la stringa presa dal form di ricerca
     searchString() {
       if (this.queryString != "") {
         let transformQuery = this.queryString.trim().replace(/\s/g, "+");
@@ -112,19 +117,7 @@ export default {
         this.$emit("receiveArray", this.findedArray);
       }
     },
-    searchGenres() {
-      axios
-        .get(
-          `https://api.themoviedb.org/3/genre/movie/list?api_key=e99307154c6dfb0b4750f6603256716d&language=en-US`
-        )
-        .then((response) => {
-          this.genresList = response.data.genres;
-          console.log(this.genresList);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+   // method per cercare attraverso l'API i film più popolari
     getPopularMovies() {
       axios
         .get(
@@ -132,12 +125,14 @@ export default {
         )
         .then((response) => {
           this.popularMovies = response.data.results;
+          // mando all'app il risulato della richiesta API attraverso un emit sucessivamente da mandare al main attraverso i props per visualizzare i giusti contenuti
           this.$emit("receiveMovies", this.popularMovies);
         })
         .catch((e) => {
           console.log(e);
         });
     },
+    // method per cercare attraverso l'API le serie TV più popolari
     getPopularTvShows() {
       axios
         .get(
@@ -145,18 +140,21 @@ export default {
         )
         .then((response) => {
           this.popularTvShows = response.data.results;
+          // mando all'app il risulato della richiesta API attraverso un emit sucessivamente da mandare al main attraverso i props per visualizzare i giusti contenuti
           this.$emit("receiveTvShow", this.popularTvShows);
         })
         .catch((e) => {
           console.log(e);
         });
     },
+    // method per ricaricare la pagina
     reloadPage() {
       window.location.reload();
     },
   },
 
   created() {
+    // alla creazione mando all'app un emit sucessivamente da mandare al main attraverso i props per visualizzare i giusti contenuti
     this.findedArray = null;
     this.$emit("receiveArray", this.findedArray);
   },

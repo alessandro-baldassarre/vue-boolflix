@@ -23,17 +23,20 @@ export default {
     };
   },
   methods:{
+    // method che assegna il valore ricevuto dall'emit all'array da mandare al main con i props
     arrayFinded(arraySearched){
       this.arrayReceived = arraySearched;
       this.moviesReceived = null;
       this.tvShowsReceived = null;
     },
+    // method che assegna il valore ricevuto dall'emit all'array da mandare al main con i props
     moviesFinded(arraySearched){
       this.moviesReceived = arraySearched;
       this.arrayReceived = null;
       this.tvShowsReceived = null;
       console.log(this.moviesReceived);
     },
+    // method che assegna il valore ricevuto dall'emit all'array da mandare al main con i props
     tvShowsFinded(arraySearched){
       this.tvShowsReceived = arraySearched;
       this.moviesReceived = null;
