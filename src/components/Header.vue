@@ -1,22 +1,40 @@
 <template>
   <header class="sticky-top">
     <nav class="navbar navbar-dark">
-      <div class="container-fluid px-5 py-2">
-        <div class="logo-brand">
-          <a class="navbar-brand">
-            <img src="../assets/img/logo.png" alt="" />
-          </a>
-        </div>
-        <div class="d-flex">
+      <div class="container-fluid">
+        <span>
+          <a class="navbar-brand" href="#"
+          ><img src="../assets/img/logo.png" alt=""
+        /></a>
+        <a class="link-light text-decoration-none me-3" href="#" @click="reloadPage()">
+          Home
+        </a>
+        <a class="link-light text-decoration-none me-3" href="#" @click="getPopularMovies()">
+          Movies
+        </a>
+        <a class="link-light text-decoration-none" href="#" @click="getPopularTvShows()">
+          TV Shows
+        </a>
+        </span>
+        
+        <form class="d-flex justify-content-end px-4 align-items-center">
+          <span
+            class="icon-search text-white position-relative"
+            @click="expandInput = !expandInput"
+          >
+            <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+          </span>
+
           <input
-            class="form-control me-2"
+            v-if="expandInput"
+            class="form-control me-2 bg-dark text-white"
             type="search"
             placeholder="Search"
             aria-label="Search"
             v-model="queryString"
-            @keyup="SearchString()"
+            @keyup="searchString()"
           />
-        </div>
+        </form>
       </div>
     </nav>
   </header>
@@ -30,11 +48,15 @@ export default {
     return {
       queryString: "",
       findedArray: null,
+      expandInput: false,
+      popularMovies: null,
+      popularTvShows: null,
+      genresList: null,
     };
   },
   props: {},
   methods: {
-    SearchString() {
+    searchString() {
       if (this.queryString != "") {
         let transformQuery = this.queryString.trim().replace(/\s/g, "+");
 
@@ -60,7 +82,50 @@ export default {
         this.$emit("receiveArray", this.findedArray);
       }
     },
+    searchGenres() {
+      axios
+        .get(
+          `https://api.themoviedb.org/3/genre/movie/list?api_key=e99307154c6dfb0b4750f6603256716d&language=en-US`
+        )
+        .then((response) => {
+          this.genresList = response.data.genres;
+          console.log(this.genresList);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+    getPopularMovies() {
+      axios
+        .get(
+          `https://api.themoviedb.org/3/movie/popular?api_key=e99307154c6dfb0b4750f6603256716d&language=en-US&page=1`
+        )
+        .then((response) => {
+          this.popularMovies = response.data.results;
+          this.$emit("receiveMovies", this.popularMovies);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+    getPopularTvShows() {
+      axios
+        .get(
+          `https://api.themoviedb.org/3/tv/popular?api_key=e99307154c6dfb0b4750f6603256716d&language=en-US&page=1`
+        )
+        .then((response) => {
+          this.popularTvShows = response.data.results;
+          this.$emit("receiveTvShow", this.popularTvShows);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+    reloadPage() {
+      window.location.reload();
+    },
   },
+
   created() {
     this.findedArray = null;
     this.$emit("receiveArray", this.findedArray);
@@ -73,11 +138,19 @@ export default {
 @import "@/assets/scss/partials/_variables";
 header {
   background-color: $mainBgDark;
-  .logo-brand {
-    img {
-      height: 25px;
-      width: 145px;
-    }
+
+  img {
+    height: 25px;
+    width: 145px;
+  }
+  form {
+    width: 30%;
+  }
+  input {
+    padding-left: 30px;
+  }
+  .icon-search {
+    left: 22px;
   }
 }
 </style>
