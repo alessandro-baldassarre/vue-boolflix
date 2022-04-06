@@ -1,40 +1,70 @@
 <template>
   <header class="sticky-top">
-    <nav class="navbar navbar-dark">
-      <div class="container-fluid">
-        <span>
-          <a class="navbar-brand" href="#"
-          ><img src="../assets/img/logo.png" alt=""
-        /></a>
-        <a class="link-light text-decoration-none me-3" href="#" @click="reloadPage()">
-          Home
-        </a>
-        <a class="link-light text-decoration-none me-3" href="#" @click="getPopularMovies()">
-          Movies
-        </a>
-        <a class="link-light text-decoration-none" href="#" @click="getPopularTvShows()">
-          TV Shows
-        </a>
-        </span>
-        
-        <form class="d-flex justify-content-end px-4 align-items-center">
-          <span
-            class="icon-search text-white position-relative"
-            @click="expandInput = !expandInput"
-          >
-            <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+    <nav>
+      <div
+        class="
+          container-fluid
+          px-5
+          py-3
+          d-flex
+          justify-content-between
+          align-items-center
+        "
+      >
+        <div>
+          <span>
+            <a class="navbar-brand" href="#"
+              ><img src="../assets/img/logo.png" alt=""
+            /></a>
+            <a
+              class="link-light text-decoration-none me-3"
+              href="#"
+              @click="reloadPage()"
+            >
+              Home
+            </a>
+            <a
+              class="link-light text-decoration-none me-3"
+              href="#"
+              @click="getPopularMovies()"
+            >
+              Movies
+            </a>
+            <a
+              class="link-light text-decoration-none"
+              href="#"
+              @click="getPopularTvShows()"
+            >
+              TV Shows
+            </a>
           </span>
+        </div>
 
-          <input
-            v-if="expandInput"
-            class="form-control me-2 bg-dark text-white"
-            type="search"
-            placeholder="Movies, TV Shows.."
-            aria-label="Search"
-            v-model="queryString"
-            @keyup="searchString()"
-          />
-        </form>
+        <div>
+          <div class="d-flex align-items-center justify-content-center">
+            <div class="me-3 position-relative">
+              <span class="icon-search text-white position-absolute fs-5">
+                <font-awesome-icon
+                  icon="fa-solid fa-magnifying-glass"
+                  @click="expandInput = !expandInput"
+                />
+              </span>
+              <input
+                class="form-control bg-dark text-white ps-2"
+                :class="expandInput ? 'visible' : 'invisible'"
+                type="search"
+                placeholder="Movies, TV Shows.."
+                aria-label="Search"
+                v-model="queryString"
+                @keyup="searchString()"
+              />
+            </div>
+
+            <span class="text-white d-flex align-items-center fs-4 ">
+              <font-awesome-icon icon="fa-solid fa-circle-user" />
+            </span>
+          </div>
+        </div>
       </div>
     </nav>
   </header>
@@ -138,19 +168,20 @@ export default {
 @import "@/assets/scss/partials/_variables";
 header {
   background-color: $mainBgDark;
+  height: 80px;
 
   img {
     height: 25px;
     width: 145px;
   }
-  form {
-    width: 30%;
-  }
   input {
     padding-left: 30px;
   }
   .icon-search {
-    left: 22px;
+    right: 10px;
+    top: 50%;
+    transform: translate(0,-50%);
+
   }
 }
 </style>
