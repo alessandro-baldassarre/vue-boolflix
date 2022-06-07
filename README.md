@@ -1,4 +1,6 @@
-# vue-boolflix
+# Boolflix
+
+Netflix clone using html, css, js (Vue.js) and axios to handle API calls.
 
 ## Project setup
 ```
@@ -10,15 +12,7 @@ npm install
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Screenshots
 
-### Lints and fixes files
-```
-npm run lint
-```
+![App Screenshot](https://i.ibb.co/ts3F3n4/Schermata-2022-06-06-alle-18-43-05.png)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
